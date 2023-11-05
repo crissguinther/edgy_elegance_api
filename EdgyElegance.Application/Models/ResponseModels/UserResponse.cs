@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using EdgyElegance.Application.Models.BaseModels;
+using Microsoft.AspNetCore.Identity;
 
 namespace EdgyElegance.Application.Models.ResponseModels {
-    public class UserResponse {
-        public bool Success { get; set; } = false;
-        public List<string>? Errors { get; set; } = new List<string>();
-
+    public class UserResponse : BaseResponse {
         public UserResponse() { }
 
         public UserResponse(IdentityResult result) {
