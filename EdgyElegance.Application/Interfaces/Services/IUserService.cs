@@ -1,9 +1,35 @@
 ﻿using EdgyElegance.Application.Models;
 using EdgyElegance.Application.Models.ResponseModels;
+using EdgyElegance.Identity.Entities;
+using Microsoft.AspNetCore.Identity;
 
 namespace EdgyElegance.Application.Interfaces.Services {
     public interface IUserService {
-        Task<UserResponse> CreateUserAsync(UserModel userModel);
-        Task<UserResponse> AddToRoleByEmailAsync(string email, string role);
+        /// <summary>
+        /// Creates an <see cref="ApplicationUser"/> and adds it to the
+        /// <see cref="IdentityRole"/> that matches the role passed as parameter
+        /// </summary>
+        /// <param name="userModel"></param>
+        /// <param name="role"></param>
+        /// <returns>
+        /// A <see cref="Task"/> that resolves in the generates <see cref="UserResponse"/>
+        /// </returns>
+        Task<UserResponse> CreateUserAsync(UserModel userModel, string role);
+
+        /// <summary>
+        /// Adds a user to a <see cref="IdentityRole"/> through its role name
+        /// </summary>
+        /// <param name="email">The <see cref="ApplicationUser"/>'s email</param>
+        /// <param name="role">
+        /// The role that the <see cref="ApplicationUser"/> will be added
+        /// </param>
+        /// <param name="saveOnSuccess">
+        /// If the changes should be persisted on the database as soon that the request has
+        /// succeeded
+        /// </param>
+        /// <returns>
+        /// A <see cref="Task"/> that resolves in the generates <see cref="UserResponse"/>
+        /// </returns>
+        Task<UserResponse> AddToRoleByEmailAsync(string email, string role, bool saveOnSuccess = false);
     }
 }

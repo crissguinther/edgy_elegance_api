@@ -17,13 +17,10 @@ namespace EdgyElegance.Persistence.Tests.Services {
         private readonly Mock<IUnitOfWork> _unitOfWorkMock;
         private readonly ApplicationUser _request;
         private readonly UserModel _userModel;
-        //private readonly EdgyEleganceIdentityContext _context;
         private readonly IUserRepository _userRepository;
         private readonly IUserService _userService;
 
         public UserServiceTests() {
-            //_context = new EdgyEleganceIdentityContextFixture().GetFixture();
-
             var userStoreMock = new Mock<IUserStore<ApplicationUser>>();
             _userManagerMock = 
                 new Mock<UserManager<ApplicationUser>>(userStoreMock.Object, null, null, null, null, null, null, null, null);
@@ -65,8 +62,14 @@ namespace EdgyElegance.Persistence.Tests.Services {
             _unitOfWorkMock.Setup(uowm => uowm.UserRepository.CreateAsync(It.IsAny<ApplicationUser>(), _userModel.Password!))
                 .ReturnsAsync(IdentityResult.Success);
 
+            _unitOfWorkMock.Setup(uowm => uowm.UserRepository.AddToRoleAsync(It.IsAny<ApplicationUser>(), "Admin"))
+                .ReturnsAsync(IdentityResult.Success);
+
+            _unitOfWorkMock.Setup(uowm => uowm.UserRepository.GetByEmailAsync(_userModel.Email!))
+                .ReturnsAsync(_request);
+
             // Act
-            _userService.CreateUserAsync(_userModel);
+            _userService.CreateUserAsync(_userModel, "Admin");
 
             // Assert
             _mapperMock.Verify(mm => mm.Map<ApplicationUser>(_userModel), Times.Once);
@@ -75,17 +78,25 @@ namespace EdgyElegance.Persistence.Tests.Services {
             _unitOfWorkMock.Verify(uowm => uowm.Rollback(), Times.Never);
         }
 
-        [Fact]
-        public async void Should_Return_Success_When_User_Is_Created() {
+        [Theory]
+        [InlineData("Customer")]
+        [InlineData("Admin")]
+        public async void Should_Create_User_With_Specified_Role(string role) {
             // Arrange
             _mapperMock.Setup(m => m.Map<ApplicationUser>(_userModel))
                 .Returns(_request);
 
-            _userManagerMock.Setup(umm => umm.CreateAsync(_request, _userModel.Password!))
+            _unitOfWorkMock.Setup(uowm => uowm.UserRepository.CreateAsync(_request, _userModel.Password!))
+                .ReturnsAsync(IdentityResult.Success);
+
+            _unitOfWorkMock.Setup(uowm => uowm.UserRepository.GetByEmailAsync(_userModel.Email!))
+                .ReturnsAsync(_request);
+
+            _unitOfWorkMock.Setup(uowm => uowm.UserRepository.AddToRoleAsync(_request, role))
                 .ReturnsAsync(IdentityResult.Success);
 
             // Act
-            var result = await _userService.CreateUserAsync(_userModel);
+            var result = await _userService.CreateUserAsync(_userModel, role);
 
             // Assert
             result.Success = true;
@@ -103,7 +114,7 @@ namespace EdgyElegance.Persistence.Tests.Services {
                 .ReturnsAsync(IdentityResult.Failed(new IdentityError() { Description = "User exits on database" }));
 
             // Act
-            var result = await _userService.CreateUserAsync(_userModel);
+            var result = await _userService.CreateUserAsync(_userModel, "Customer");
 
             // Assert
             result.Success = true;
@@ -129,7 +140,7 @@ namespace EdgyElegance.Persistence.Tests.Services {
                 .ReturnsAsync(expectedResult);
 
             // Act
-            var result = await _userService.AddToRoleByEmailAsync(_userModel.Email!, role);
+            var result = await _userService.AddToRoleByEmailAsync(_userModel.Email!, role, true);
 
             // Assert
             result.Should().NotBeNull();

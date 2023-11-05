@@ -15,7 +15,7 @@ namespace EdgyElegance.Persistence.Services {
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<UserResponse> AddToRoleByEmailAsync(string email, string role) {
+        public async Task<UserResponse> AddToRoleByEmailAsync(string email, string role, bool saveOnSuccess = false) {
             UserResponse response = new();
             ApplicationUser? user = await _unitOfWork.UserRepository.GetByEmailAsync(email);
             
@@ -24,19 +24,21 @@ namespace EdgyElegance.Persistence.Services {
 
             response.MapIdentityResult(await _unitOfWork.UserRepository.AddToRoleAsync(user!, role));
 
-            if (response.Success)
+            if (response.Success && saveOnSuccess)
                 _unitOfWork.Commit();
-            else 
+            if (!response.Success)
                 _unitOfWork.Rollback();
 
             return response;
         }
 
-        public async Task<UserResponse> CreateUserAsync(UserModel userModel) {
+        public async Task<UserResponse> CreateUserAsync(UserModel userModel, string role) {
             ApplicationUser user = _mapper.Map<ApplicationUser>(userModel);
             var response = new UserResponse(await _unitOfWork.UserRepository.CreateAsync(user, userModel.Password!));
-            if (response.Success) _unitOfWork.Commit();
-            else _unitOfWork.Rollback();
+            if (response.Success) {
+                await this.AddToRoleByEmailAsync(userModel.Email!, role);
+                _unitOfWork.Commit();
+            } else _unitOfWork.Rollback();
 
             return response;
         }
