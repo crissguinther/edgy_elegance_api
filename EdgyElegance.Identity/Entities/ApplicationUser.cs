@@ -9,5 +9,7 @@ namespace EdgyElegance.Identity.Entities {
         public string FirstName { get; set; } = string.Empty;
         [MinLength(2), MaxLength(50)]
         public string LastName { get; set; } = string.Empty;
+
+        public virtual ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
     }
 }

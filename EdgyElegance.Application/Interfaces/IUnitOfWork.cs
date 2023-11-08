@@ -3,6 +3,7 @@
 namespace EdgyElegance.Application.Interfaces {
     public interface IUnitOfWork {
         IUserRepository UserRepository { get; }
+        IAuthRepository AuthRepository { get; }
 
         /// <summary>
         /// Commit all the changes

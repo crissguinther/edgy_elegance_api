@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34221.43
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EdgyElegance.Persistence.Tests", "EdgyElegance.Persistence.Tests\EdgyElegance.Persistence.Tests.csproj", "{3B677C84-4C09-4380-86AF-EE0E324842A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EdgyElegance.Persistence.Tests", "EdgyElegance.Persistence.Tests\EdgyElegance.Persistence.Tests.csproj", "{3B677C84-4C09-4380-86AF-EE0E324842A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EdgyElegance.Persistence", "EdgyElegance.Persistence\EdgyElegance.Persistence.csproj", "{9DA656D9-AF93-43AF-BB02-E6CAEBA83502}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EdgyElegance.Persistence", "EdgyElegance.Persistence\EdgyElegance.Persistence.csproj", "{9DA656D9-AF93-43AF-BB02-E6CAEBA83502}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EdgyElegance.Identity", "EdgyElegance.Identity\EdgyElegance.Identity.csproj", "{AB550729-641A-422C-81E2-42D76A9B8E9D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EdgyElegance.Identity", "EdgyElegance.Identity\EdgyElegance.Identity.csproj", "{AB550729-641A-422C-81E2-42D76A9B8E9D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EdgyElegance.Application", "EdgyElegance.Application\EdgyElegance.Application.csproj", "{E79E1376-E055-4D17-93AF-6FCFE1B8E096}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EdgyElegance.Application", "EdgyElegance.Application\EdgyElegance.Application.csproj", "{E79E1376-E055-4D17-93AF-6FCFE1B8E096}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EdgyElegance.Api", "EdgyElegance.Api\EdgyElegance.Api.csproj", "{2159E44E-B29B-4C5C-BF42-EBF54A611B19}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{E79E1376-E055-4D17-93AF-6FCFE1B8E096}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E79E1376-E055-4D17-93AF-6FCFE1B8E096}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E79E1376-E055-4D17-93AF-6FCFE1B8E096}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2159E44E-B29B-4C5C-BF42-EBF54A611B19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2159E44E-B29B-4C5C-BF42-EBF54A611B19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2159E44E-B29B-4C5C-BF42-EBF54A611B19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2159E44E-B29B-4C5C-BF42-EBF54A611B19}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

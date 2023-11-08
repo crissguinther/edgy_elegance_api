@@ -2,7 +2,7 @@
 using EdgyElegance.Application.Interfaces;
 using EdgyElegance.Application.Interfaces.Repositories;
 using EdgyElegance.Application.Interfaces.Services;
-using EdgyElegance.Application.Models;
+using EdgyElegance.Application.Models.RequestModels;
 using EdgyElegance.Identity.Entities;
 using EdgyElegance.Persistence.Repositories;
 using EdgyElegance.Persistence.Services;
@@ -10,22 +10,25 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Identity;
 using Moq;
 
-namespace EdgyElegance.Persistence.Tests.Services {
+namespace EdgyElegance.Persistence.Tests.Services
+{
     public class UserServiceTests {
         private readonly Mock<UserManager<ApplicationUser>> _userManagerMock;
         private readonly Mock<IMapper> _mapperMock;
         private readonly Mock<IUnitOfWork> _unitOfWorkMock;
         private readonly ApplicationUser _request;
-        private readonly UserModel _userModel;
+        private readonly CreateUserRequest _userModel;
         private readonly IUserRepository _userRepository;
         private readonly IUserService _userService;
+        private readonly Mock<IBaseRepository<ApplicationUser>> _baseRepositoryMock;
 
         public UserServiceTests() {
             var userStoreMock = new Mock<IUserStore<ApplicationUser>>();
             _userManagerMock = 
                 new Mock<UserManager<ApplicationUser>>(userStoreMock.Object, null, null, null, null, null, null, null, null);
 
-            _userRepository = new UserRepository(_userManagerMock.Object);
+            _baseRepositoryMock = new();
+            _userRepository = new UserRepository(_userManagerMock.Object, _baseRepositoryMock.Object);
             _mapperMock = new Mock<IMapper>();
             _unitOfWorkMock = new Mock<IUnitOfWork>();
 
@@ -41,7 +44,7 @@ namespace EdgyElegance.Persistence.Tests.Services {
                 PasswordHash = "onepasswordhash"
             };
 
-            _userModel = new UserModel {
+            _userModel = new CreateUserRequest {
                 FirstName = "Test",
                 LastName = "Test",
                 Email = "email@email.com",
