@@ -52,9 +52,6 @@ namespace EdgyElegance.Api.Helpers {
             builder.Services.AddTransient<IAuthService, AuthService>();
             builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
             builder.Services.AddTransient<UserManager<ApplicationUser>>();
-
-            // Base repositories
-            builder.Services.AddTransient<IBaseRepository<ApplicationUser>, BaseRepository<ApplicationUser>>();
         }
     }
 }

@@ -1,16 +1,13 @@
 ﻿using EdgyElegance.Application.Interfaces.Repositories;
 using EdgyElegance.Identity.Entities;
 using Microsoft.AspNetCore.Identity;
-using System.Linq.Expressions;
 
 namespace EdgyElegance.Persistence.Repositories {
     public class UserRepository : IUserRepository {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IBaseRepository<ApplicationUser> _baseRepository;
 
-        public UserRepository(UserManager<ApplicationUser> userManager, IBaseRepository<ApplicationUser> baseRepository) {
+        public UserRepository(UserManager<ApplicationUser> userManager) {
             _userManager  = userManager;
-            _baseRepository = baseRepository;
         }
 
         public Task<IdentityResult> AddToRoleAsync(ApplicationUser user, string role) {
@@ -21,8 +18,8 @@ namespace EdgyElegance.Persistence.Repositories {
             return _userManager.CreateAsync(user, password);
         }
 
-        public ApplicationUser? Get(Expression<Func<ApplicationUser, bool>> expression) 
-            => _baseRepository.Get(expression);
+        public Task<ApplicationUser?> GetByIdAsync(string id)
+            => _userManager.FindByIdAsync(id);
 
         public Task<ApplicationUser?> GetByEmailAsync(string email) {
             return _userManager.FindByEmailAsync(email);
@@ -35,7 +32,10 @@ namespace EdgyElegance.Persistence.Repositories {
         public async Task<bool> IsPasswordValid(ApplicationUser user, string password)
             => await _userManager.CheckPasswordAsync(user, password);
 
-        public bool UserExists(Expression<Func<ApplicationUser, bool>> predicate)
-            => _baseRepository.Exists(predicate);
+        public async Task<bool> UserExists(string email) {
+            ApplicationUser? user = await _userManager.FindByEmailAsync(email);
+
+            return user is not null;
+        }            
     }
 }

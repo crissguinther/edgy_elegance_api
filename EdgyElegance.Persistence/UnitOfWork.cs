@@ -15,9 +15,7 @@ namespace EdgyElegance.Persistence {
         public UnitOfWork(EdgyEleganceIdentityContext identityContext, UserManager<ApplicationUser> userManager) {
             _identityContext = identityContext;
 
-            IBaseRepository<ApplicationUser> baseRepository = new BaseRepository<ApplicationUser>(_identityContext);
-
-            UserRepository = new UserRepository(userManager, baseRepository);
+            UserRepository = new UserRepository(userManager);
             AuthRepository = new AuthRepository(_identityContext);
         }
 

@@ -24,14 +24,16 @@ namespace EdgyElegance.Api.Controllers {
             if (!ModelState.IsValid) 
                 return BadRequest(new BadRequestResponse(ModelState));
 
-            if (!_userService.UserExists(u => u.Email == user.Email))
+            bool userExists = await _userService.UserExists(user.Email!);
+
+            if (!userExists)
                 return BadRequest(new BadRequestResponse {
                     Errors = new List<string> { "User not found" }
                 });
 
-            ApplicationUser applicationUser = _userService.GetUser(u => u.Email == user.Email)!;
-            string token = await _authService.CreateTokenAsync(applicationUser);
-            string refreshToken = _authService.CreateRefreshToken(applicationUser);
+            ApplicationUser? applicationUser = await _userService.GetByEmailAsync(user.Email!);
+            string token = await _authService.CreateTokenAsync(applicationUser!);
+            string refreshToken = _authService.CreateRefreshToken(applicationUser!);
 
             AddRefreshTokenCookie(refreshToken);
 
