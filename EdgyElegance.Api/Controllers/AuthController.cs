@@ -52,7 +52,7 @@ namespace EdgyElegance.Api.Controllers {
 
             AddRefreshTokenCookie(token.RefreshToken);
 
-            return Ok(token.RefreshToken);
+            return Ok(token.Token);
         }
 
         private void AddRefreshTokenCookie(string refreshToken) {
