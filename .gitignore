@@ -477,3 +477,6 @@ $RECYCLE.BIN/
 *.lnk
 
 compose.yml
+
+# For development purposes, can be removed later
+Uploads 
