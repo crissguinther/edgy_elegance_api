@@ -15,6 +15,7 @@ namespace EdgyElegance.Persistence {
         public IUserRepository UserRepository { get; private set; }
         public IAuthRepository AuthRepository { get; private set; }
         public ICategoryRepository CategoryRepository { get; private set; }
+        public IGenderRepository GenderRepository { get; private set; }
 
         public UnitOfWork(EdgyEleganceIdentityContext identityContext, ApplicationContext applicationContext, UserManager<ApplicationUser> userManager) {
             _identityContext = identityContext;
@@ -23,6 +24,7 @@ namespace EdgyElegance.Persistence {
             UserRepository = new UserRepository(userManager);
             AuthRepository = new AuthRepository(_identityContext);
             CategoryRepository = new CategoryRepository(_context);
+            GenderRepository = new GenderRepository(_context);
         }
 
         public void Commit() {
