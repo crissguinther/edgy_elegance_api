@@ -7,6 +7,8 @@ namespace EdgyElegance.Application.Interfaces {
         IAuthRepository AuthRepository { get; }
         ICategoryRepository CategoryRepository { get; }
         IGenderRepository GenderRepository { get; }
+        IProductRepository ProductRepository { get; }
+        IImageRepository ImageRepository { get; }
 
         /// <summary>
         /// Commit all the changes

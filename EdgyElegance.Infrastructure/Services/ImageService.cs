@@ -1,4 +1,5 @@
 ﻿using EdgyElegance.Application.Constants;
+using EdgyElegance.Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using System.Drawing;
 
@@ -37,6 +38,15 @@ public class ImageService : IImageService {
         thumbnail.Save(filename: filename);
 
         return filename;
+    }
+
+    public void DeleteImages(IEnumerable<BaseImage> images) {
+        images.ToList().ForEach(f => {
+            string? path = f.Path ?? string.Empty;
+            
+            if (!string.IsNullOrEmpty(path))
+                if (File.Exists(path)) File.Delete(path);
+        });
     }
 
     public string StoreFileImage(IFormFile file) {

@@ -13,5 +13,9 @@ public class Product : IEntityTypeConfiguration<Domain.Entities.Product> {
 
         builder.HasMany(b => b.Categories)
             .WithMany(b => b.Products);
+
+        builder.HasMany(b => b.Images)
+            .WithOne(b => b.Product)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

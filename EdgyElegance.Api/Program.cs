@@ -1,5 +1,6 @@
 using EdgyElegance.Api.Helpers;
 using EdgyElegance.Application;
+using EdgyElegance.Infrastructure;
 using EdgyElegance.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.InjectPersistenceServices();
 builder.Services.InjectApplicationServices();
+builder.Services.InjectInfrastructureServices();
 builder.InjectServices();
 builder.Seed();
 

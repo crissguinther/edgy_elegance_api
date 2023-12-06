@@ -9,4 +9,5 @@ public class Product : BaseEntity {
     public Size Size { get; set; } = Size.S;
     public virtual ICollection<Category> Categories { get; set; } = new List<Category>();
     public virtual ICollection<Gender> Genders { get; set; } = new List<Gender>();
+    public virtual ICollection<ProductImage> Images { get; set; } = new List<ProductImage>();
 }

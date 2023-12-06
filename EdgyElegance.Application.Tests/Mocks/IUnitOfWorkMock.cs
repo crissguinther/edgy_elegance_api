@@ -9,10 +9,18 @@ public static class IUnitOfWorkMock {
 
         // Repositories
         Mock<IGenderRepository> genderRepositoryMock = new();
+        Mock<IProductRepository> productRepositoryMock = new();
+        Mock<ICategoryRepository> categoryRepositoryMock = new();
 
         // Setup
+        mock.Setup(m => m.CategoryRepository)
+            .Returns(categoryRepositoryMock.Object);
+
         mock.Setup(m => m.GenderRepository)
             .Returns(genderRepositoryMock.Object);
+
+        mock.Setup(m => m.ProductRepository)
+            .Returns(productRepositoryMock.Object);
 
         return mock;
     }

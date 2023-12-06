@@ -14,7 +14,8 @@ public class ApplicationContext : DbContext {
     public virtual DbSet<Category> Categories { get; set; }
     public virtual DbSet<Gender> Genders { get; set; }
     public virtual DbSet<Product> Products { get; set; }
-
+    public virtual DbSet<ProductImage> ProductImages { get; set; }
+    public virtual DbSet<ProductImageThumbnail> ProductImageThumbnails { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder) {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationContext).Assembly);

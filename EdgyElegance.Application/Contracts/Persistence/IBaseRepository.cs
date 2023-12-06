@@ -38,4 +38,6 @@ public interface IBaseRepository<T> where T : BaseEntity {
     /// </summary>
     /// <param name="entity">The entity to be updated</param>
     void Update(T entity);
+
+    Task<List<T>> GetManyAsync(Expression<Func<T, bool>> predicate);
 }
