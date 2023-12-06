@@ -30,6 +30,7 @@ internal class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity {
         IQueryable<T> query = filter is not null ? Find(filter) : _context.Set<T>();
         int skip = (page - 1) * pageSize;
         List<int> idsToFetch = query.Select(c => c.Id).Skip(skip).Take(pageSize).ToList();
+        IEnumerable<T> entities = query.Where(c => idsToFetch.Contains(c.Id));
         IEnumerable<T> entities = _context.Set<T>().Where(c => idsToFetch.Contains(c.Id));
         return entities.OrderBy(c => idsToFetch.IndexOf(c.Id)).ToList();
     }
