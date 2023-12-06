@@ -2,6 +2,7 @@
 using EdgyElegance.Domain.Entities;
 using EdgyElegance.Persistence.DatabaseContexts;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 using System.Reflection;
 
 namespace EdgyElegance.Persistence.Repositories;
@@ -22,16 +23,32 @@ internal class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity {
         _context.Set<T>().Remove(entity);
     }
 
-    public async Task<T?> GetByIdAsync(int id) {
-        return await _context.Set<T>().FirstOrDefaultAsync(e => e.Id == id);
+    public async Task<T?> GetByIdAsync(int id, params Expression<Func<T, object>>[] includes) {
+        IQueryable<T> query = _context.Set<T>();
+
+        if (includes.Length > 0) {
+            foreach(var include in includes) {
+                query = query.Include(include);
+            }
+        }
+
+        return await query.FirstOrDefaultAsync(e => e.Id == id);
     }
 
-    public List<T> GetPaginated(int page, int pageSize, object? filter = null) {
+    public async Task<List<T>> GetManyAsync(Expression<Func<T, bool>> predicate) {
+        return await _context.Set<T>().Where(predicate).ToListAsync();
+    }
+
+    public List<T> GetPaginated(int page, int pageSize, object? filter = null, params Expression<Func<T, object>>[] includes) {
         IQueryable<T> query = filter is not null ? Find(filter) : _context.Set<T>();
+
+        foreach (var include in includes) {
+            query = query.Include(include);
+        }
+
         int skip = (page - 1) * pageSize;
         List<int> idsToFetch = query.Select(c => c.Id).Skip(skip).Take(pageSize).ToList();
         IEnumerable<T> entities = query.Where(c => idsToFetch.Contains(c.Id));
-        IEnumerable<T> entities = _context.Set<T>().Where(c => idsToFetch.Contains(c.Id));
         return entities.OrderBy(c => idsToFetch.IndexOf(c.Id)).ToList();
     }
 
@@ -39,7 +56,7 @@ internal class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity {
         _context.Set<T>().Update(entity);
     }
 
-    private IQueryable<T> Find(object filter) {
+    private IQueryable<T> Find(object filter, params Expression<Func<T, object>>[] includes) {
         IQueryable<T> query = _context.Set<T>();
         var filterProperties = filter.GetType().GetProperties();
         var entityProperties = typeof(T).GetType().GetProperties();

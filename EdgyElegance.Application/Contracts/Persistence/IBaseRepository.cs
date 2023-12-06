@@ -1,4 +1,5 @@
 ﻿using EdgyElegance.Domain.Entities;
+using System.Linq.Expressions;
 
 namespace EdgyElegance.Application.Contracts.Persistence;
 
@@ -8,7 +9,7 @@ public interface IBaseRepository<T> where T : BaseEntity {
     /// </summary>
     /// <param name="id">The entity's ID</param>
     /// <returns>The entity if found, null otherwise</returns>
-    Task<T?> GetByIdAsync(int id);
+    Task<T?> GetByIdAsync(int id, params Expression<Func<T, object>>[] includes);
 
     /// <summary>
     /// Adds a new entry to the database async
@@ -24,7 +25,7 @@ public interface IBaseRepository<T> where T : BaseEntity {
     /// <param name="pageSize">The page's size</param>
     /// <param name="filter">A filter to be used</param>
     /// <returns>A <see cref="List{T}"/> with the results found</returns>
-    List<T> GetPaginated(int page, int pageSize, object? filter = null);
+    List<T> GetPaginated(int page, int pageSize, object? filter = null, params Expression<Func<T, object>>[] includes);
 
     /// <summary>
     /// Deletes an entity from the database
