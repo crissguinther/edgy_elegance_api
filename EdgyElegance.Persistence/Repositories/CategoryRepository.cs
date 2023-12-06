@@ -2,6 +2,7 @@
 using EdgyElegance.Domain.Entities;
 using EdgyElegance.Persistence.DatabaseContexts;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace EdgyElegance.Persistence.Repositories;
 public class CategoryRepository : ICategoryRepository {
@@ -35,5 +36,9 @@ public class CategoryRepository : ICategoryRepository {
 
     public List<Category> GetPaginated(int page, int count, object? filter = null) {
         return _baseRepository.GetPaginated(page, count, filter);
+    }
+
+    public async Task<List<Category>> GetManyAsync(Expression<Func<Category, bool>> expression) {
+        return await _baseRepository.GetManyAsync(expression);
     }
 }

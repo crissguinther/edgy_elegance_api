@@ -1,4 +1,5 @@
 ﻿using EdgyElegance.Domain.Entities;
+using System.Linq.Expressions;
 
 namespace EdgyElegance.Application.Contracts.Persistence;
 public interface ICategoryRepository {
@@ -20,6 +21,8 @@ public interface ICategoryRepository {
     Task<Category?> GetAsync(int id);
 
     List<Category> GetPaginated(int page, int count, object? filter = null);
+
+    Task<List<Category>> GetManyAsync(Expression<Func<Category, bool>> expression);
 
     void Delete(Category category);
 
