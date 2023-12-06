@@ -13,5 +13,7 @@ internal class GenderProfile : Profile {
         CreateMap<UpdateGenderCommand, Gender>();
 
         CreateMap<Gender, GenderDetailsDto>();
+
+        CreateMap<Gender, GenderDto>();
     }
 }

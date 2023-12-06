@@ -4,15 +4,17 @@ using EdgyElegance.Application.Interfaces;
 using EdgyElegance.Application.Tests.Mocks;
 using EdgyElegance.Domain.Entities;
 
-namespace EdgyElegance.Application.Tests.FeaturesTests.CommandsTests.CreateGenderCommandTests;
+namespace EdgyElegance.Application.Tests.FeaturesTests.CommandsTests.GenderTests.CreateGenderCommandTests;
 
-public class CreateGenderCommandHandlerTests {
+public class CreateGenderCommandHandlerTests
+{
     private readonly Mock<IUnitOfWork> _unitOfWorkMock;
     private readonly IMapper _mapper;
     private readonly IUnitOfWork _unitOfWork;
     private readonly CreateGenderCommandHandler _handler;
 
-    public CreateGenderCommandHandlerTests() {
+    public CreateGenderCommandHandlerTests()
+    {
         _unitOfWorkMock = IUnitOfWorkMock.GetMock();
 
         _mapper = new Mock<IMapper>().Object;
@@ -22,9 +24,10 @@ public class CreateGenderCommandHandlerTests {
     }
 
     [Fact]
-    public async void Handle_WithNullOrEmpty_ShouldRaiseBadRequestException() {
+    public async void Handle_WithNullOrEmpty_ShouldRaiseBadRequestException()
+    {
         // Arrange
-        var command = new CreateGenderCommand { Name = ""};        
+        var command = new CreateGenderCommand { Name = "" };
 
         // Act
         async Task act() => await _handler.Handle(command, CancellationToken.None);
@@ -34,13 +37,14 @@ public class CreateGenderCommandHandlerTests {
     }
 
     [Fact]
-    public async void Handle_WithNonExistingGender_ShouldCallUnitOfWorkCommit() {
+    public async void Handle_WithNonExistingGender_ShouldCallUnitOfWorkCommit()
+    {
         // Arrange
         var genderName = Guid.NewGuid().ToString();
-        var command = new CreateGenderCommand{ Name = genderName };
+        var command = new CreateGenderCommand { Name = genderName };
 
         _unitOfWorkMock.Setup(uowm => uowm.GenderRepository.AddAsync(It.IsAny<Gender>()))
-            .ReturnsAsync(new Gender { Name = genderName, Id = 1 });            
+            .ReturnsAsync(new Gender { Name = genderName, Id = 1 });
 
         // Act
         var result = await _handler.Handle(command, CancellationToken.None);
@@ -51,10 +55,11 @@ public class CreateGenderCommandHandlerTests {
     }
 
     [Fact]
-    public async void Handle_WithExistingGender_ShouldRaiseBadRequestException() {
+    public async void Handle_WithExistingGender_ShouldRaiseBadRequestException()
+    {
         // Arrange
         var genderName = Guid.NewGuid().ToString();
-        var command = new CreateGenderCommand{ Name = genderName };
+        var command = new CreateGenderCommand { Name = genderName };
 
         _unitOfWorkMock.Setup(x => x.GenderRepository.ExistsAsync(genderName))
             .ReturnsAsync(true);

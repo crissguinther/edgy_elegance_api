@@ -1,4 +1,5 @@
 ﻿using EdgyElegance.Domain.Entities;
+using System.Linq.Expressions;
 
 namespace EdgyElegance.Application.Contracts.Persistence;
 public interface IGenderRepository {
@@ -34,4 +35,6 @@ public interface IGenderRepository {
     /// <param name="genderName">The <see cref="Gender"/>'s name</param>
     /// <returns><see cref="true"/> if exists, <see cref="false"/> otherwise</returns>
     Task<bool> ExistsAsync(string genderName);
+
+    Task<List<Gender>> GetManyAsync(Expression<Func<Gender, bool>> predicate);
 }

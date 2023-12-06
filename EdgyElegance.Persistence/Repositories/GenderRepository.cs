@@ -2,6 +2,7 @@
 using EdgyElegance.Domain.Entities;
 using EdgyElegance.Persistence.DatabaseContexts;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace EdgyElegance.Persistence.Repositories;
 internal class GenderRepository : IGenderRepository {
@@ -27,6 +28,10 @@ internal class GenderRepository : IGenderRepository {
 
     public Task<Gender?> FindByIdAsync(int id) {
         return _baseRepository.GetByIdAsync(id);
+    }
+
+    public async Task<List<Gender>> GetManyAsync(Expression<Func<Gender, bool>> predicate) {
+        return await _baseRepository.GetManyAsync(predicate);
     }
 
     public void Update(Gender category) {

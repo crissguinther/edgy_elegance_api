@@ -4,9 +4,10 @@ using EdgyElegance.Application.Interfaces;
 using EdgyElegance.Application.Tests.Mocks;
 using EdgyElegance.Domain.Entities;
 
-namespace EdgyElegance.Application.Tests.FeaturesTests.CommandsTests.UpdateGenderCommandTests;
+namespace EdgyElegance.Application.Tests.FeaturesTests.CommandsTests.GenderTests.UpdateGenderCommandTests;
 
-public class UpdateGenderCommandTests {
+public class UpdateGenderCommandTests
+{
     private readonly Mock<IUnitOfWork> _unitOfWorkMock;
     private readonly Mock<IMapper> _mapperMock;
 
@@ -15,7 +16,8 @@ public class UpdateGenderCommandTests {
 
     private readonly UpdateGenderCommandHandler _handler;
 
-    public UpdateGenderCommandTests() {
+    public UpdateGenderCommandTests()
+    {
         _unitOfWorkMock = IUnitOfWorkMock.GetMock();
         _mapperMock = new Mock<IMapper>();
 
@@ -26,12 +28,13 @@ public class UpdateGenderCommandTests {
     }
 
     [Fact]
-    public async Task Handle_WithNonExistingCategory_ShouldRaiseNotFoundExceptionAsync() {
+    public async Task Handle_WithNonExistingCategory_ShouldRaiseNotFoundExceptionAsync()
+    {
         // Arrange
         var command = new UpdateGenderCommand();
 
         _unitOfWorkMock.Setup(x => x.GenderRepository.FindByIdAsync(1))
-            .ReturnsAsync((Gender?) null);
+            .ReturnsAsync((Gender?)null);
 
         // Act & Assert
         await _handler.Invoking(x => x.Handle(command, CancellationToken.None))
@@ -39,9 +42,10 @@ public class UpdateGenderCommandTests {
     }
 
     [Fact]
-    public async Task Handle_WithEmptyGenderName_ShouldRaiseBadExceptionAsync() {
+    public async Task Handle_WithEmptyGenderName_ShouldRaiseBadExceptionAsync()
+    {
         // Arrange
-        var command = new UpdateGenderCommand { Id = 1, Name = ""};
+        var command = new UpdateGenderCommand { Id = 1, Name = "" };
         var gender = new Gender { Id = 1, Name = Guid.NewGuid().ToString() };
 
         _unitOfWorkMock.Setup(x => x.GenderRepository.FindByIdAsync(1))
@@ -53,7 +57,8 @@ public class UpdateGenderCommandTests {
     }
 
     [Fact]
-    public async Task Handle_WithExistingCategoryName_ShouldRaiseBadExceptionAsync() {
+    public async Task Handle_WithExistingCategoryName_ShouldRaiseBadExceptionAsync()
+    {
         // Arrange
         var genderName = Guid.NewGuid().ToString();
         var command = new UpdateGenderCommand { Id = 1, Name = genderName };
@@ -71,7 +76,8 @@ public class UpdateGenderCommandTests {
     }
 
     [Fact]
-    public async Task Handle_WithValidCommand_ShouldProperlyCallDatabase() {
+    public async Task Handle_WithValidCommand_ShouldProperlyCallDatabase()
+    {
         // Arrange
         var genderName = Guid.NewGuid().ToString();
         var command = new UpdateGenderCommand { Id = 1, Name = "NewGender" };

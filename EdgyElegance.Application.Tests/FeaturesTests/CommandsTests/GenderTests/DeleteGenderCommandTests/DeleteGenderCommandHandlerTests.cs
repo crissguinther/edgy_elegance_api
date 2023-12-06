@@ -5,26 +5,29 @@ using EdgyElegance.Application.Tests.Mocks;
 using EdgyElegance.Domain.Entities;
 using MediatR;
 
-namespace EdgyElegance.Application.Tests.FeaturesTests.CommandsTests.DeleteGenderCommandTests;
+namespace EdgyElegance.Application.Tests.FeaturesTests.CommandsTests.GenderTests.DeleteGenderCommandTests;
 
-public class DeleteGenderCommandHandlerTests {
+public class DeleteGenderCommandHandlerTests
+{
     private readonly Mock<IUnitOfWork> _unitOfWorkMock = IUnitOfWorkMock.GetMock();
 
     private readonly DeleteGenderCommandHandler _handler;
     private readonly IUnitOfWork _unitOfWork;
 
-    public DeleteGenderCommandHandlerTests() {
+    public DeleteGenderCommandHandlerTests()
+    {
         _unitOfWork = _unitOfWorkMock.Object;
         _handler = new DeleteGenderCommandHandler(_unitOfWork);
     }
 
     [Fact]
-    public async Task Handle_WithNonExistingGender_ShouldRaiseNotFoundExceptionAsync() {
+    public async Task Handle_WithNonExistingGender_ShouldRaiseNotFoundExceptionAsync()
+    {
         // Arrange
         var command = new DeleteGenderCommand(1);
 
         _unitOfWorkMock.Setup(x => x.GenderRepository.FindByIdAsync(It.IsAny<int>()))
-            .ReturnsAsync((Gender?) null);
+            .ReturnsAsync((Gender?)null);
 
         // Act & Assert
         await _handler.Invoking(h => h.Handle(command, CancellationToken.None))
@@ -32,7 +35,8 @@ public class DeleteGenderCommandHandlerTests {
     }
 
     [Fact]
-    public async Task Handle_WithExistingGender_ShouldDeleteAndPersistChanges() {
+    public async Task Handle_WithExistingGender_ShouldDeleteAndPersistChanges()
+    {
         // Arrange
         var command = new DeleteGenderCommand(1);
         var gender = new Gender { Name = Guid.NewGuid().ToString(), Id = 1 };
