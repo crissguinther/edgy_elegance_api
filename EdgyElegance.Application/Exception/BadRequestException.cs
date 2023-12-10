@@ -2,13 +2,11 @@
 
 namespace EdgyElegance.Application.Exception;
 public class BadRequestException :  System.Exception {
-    public IEnumerable<string>? ValidationErrors { get; set; }
+    public IDictionary<string, string[]> ValidationErrors { get; set; } = new Dictionary<string, string[]>();
 
     public BadRequestException(string message) : base(message) { }
 
     public BadRequestException(ValidationResult validationResult) : base("One or more validation errors ocurred") {
-        ValidationErrors = validationResult.Errors
-            .Where(e => !string.IsNullOrEmpty(e.ErrorMessage))
-            .Select(e => e.ErrorMessage).ToList();
+        ValidationErrors = validationResult.ToDictionary();
     }
 }

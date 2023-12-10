@@ -1,4 +1,5 @@
-﻿using EdgyElegance.Application.Interfaces;
+﻿using EdgyElegance.Api.Middlewares;
+using EdgyElegance.Application.Interfaces;
 using EdgyElegance.Application.Interfaces.Repositories;
 using EdgyElegance.Application.Interfaces.Services;
 using EdgyElegance.Identity;
@@ -45,6 +46,7 @@ namespace EdgyElegance.Api.Helpers {
                     };
                 });
 
+            builder.Services.AddTransient<ExceptionHandlerMiddleware>();
             builder.Services.AddScoped<IUserStore<ApplicationUser>, ApplicationUserStore>();
             builder.Services.AddTransient<IUserRepository, UserRepository>();
             builder.Services.AddTransient<IUserService, UserService>();

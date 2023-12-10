@@ -12,7 +12,7 @@ public class GetProductThumbnailImageQueryHandler : IRequestHandler<GetProductTh
     }
 
     public async Task<Stream> Handle(GetProductThumbnailImageQuery request, CancellationToken cancellationToken) {
-        var image = await _unitOfWork.ImageRepository.GetProductImage(request.Id)
+        var image = await _unitOfWork.ImageRepository.GetProductImageThumbnail(request.Id)
             ?? throw new NotFoundException(nameof(Domain.Entities.ProductImage), request.Id);
 
         byte[] bytes = File.ReadAllBytes(image.Path);

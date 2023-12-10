@@ -1,4 +1,5 @@
 using EdgyElegance.Api.Helpers;
+using EdgyElegance.Api.Middlewares;
 using EdgyElegance.Application;
 using EdgyElegance.Infrastructure;
 using EdgyElegance.Persistence;
@@ -19,6 +20,8 @@ builder.InjectServices();
 builder.Seed();
 
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment()) {
