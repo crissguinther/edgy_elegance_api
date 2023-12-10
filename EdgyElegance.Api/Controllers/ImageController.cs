@@ -1,5 +1,6 @@
 ﻿using EdgyElegance.Application.Constants;
 using EdgyElegance.Application.Features.Commands.Image.UpdateProductImagesCommand;
+using EdgyElegance.Application.Features.Queries.Images.GetProductImageQuery;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +14,30 @@ public class ImageController : Controller {
 
     public ImageController(IMediator mediator) {
         _mediator = mediator;
+    }
+
+    [HttpGet]
+    [Route("get-product-image")]
+    [AllowAnonymous]
+    [ProducesResponseType((int) HttpStatusCode.NotFound)]
+    [ProducesResponseType((int) HttpStatusCode.OK)]
+    public async Task<FileStreamResult> GetProductImage([FromQuery] int id) {
+        var query = new GetProductThumbnailImageQuery(id);
+        var file = await _mediator.Send(query);
+
+        return new FileStreamResult(file, "image/png");
+    }
+
+    [HttpGet]
+    [Route("get-product-thumbnail-image")]
+    [AllowAnonymous]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    public async Task<FileStreamResult> GetProductThumbnailImage([FromQuery] int id) {
+        var query = new GetProductThumbnailImageQuery(id);
+        var file = await _mediator.Send(query);
+
+        return new FileStreamResult(file, "image/png");
     }
 
     [HttpPut]

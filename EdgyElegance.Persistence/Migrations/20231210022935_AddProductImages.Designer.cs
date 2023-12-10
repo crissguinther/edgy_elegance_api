@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EdgyElegance.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20231205171758_AddsProductImages")]
-    partial class AddsProductImages
+    [Migration("20231210022935_AddProductImages")]
+    partial class AddProductImages
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -149,7 +149,7 @@ namespace EdgyElegance.Persistence.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductImage");
+                    b.ToTable("ProductImages");
                 });
 
             modelBuilder.Entity("EdgyElegance.Domain.Entities.ProductImageThumbnail", b =>
@@ -178,7 +178,7 @@ namespace EdgyElegance.Persistence.Migrations
                     b.HasIndex("ProductImageId")
                         .IsUnique();
 
-                    b.ToTable("ProductImageThumbnail");
+                    b.ToTable("ProductImageThumbnails");
                 });
 
             modelBuilder.Entity("GenderProduct", b =>

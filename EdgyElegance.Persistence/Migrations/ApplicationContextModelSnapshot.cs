@@ -146,7 +146,7 @@ namespace EdgyElegance.Persistence.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductImage");
+                    b.ToTable("ProductImages");
                 });
 
             modelBuilder.Entity("EdgyElegance.Domain.Entities.ProductImageThumbnail", b =>
@@ -175,7 +175,7 @@ namespace EdgyElegance.Persistence.Migrations
                     b.HasIndex("ProductImageId")
                         .IsUnique();
 
-                    b.ToTable("ProductImageThumbnail");
+                    b.ToTable("ProductImageThumbnails");
                 });
 
             modelBuilder.Entity("GenderProduct", b =>

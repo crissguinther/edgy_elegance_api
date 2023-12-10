@@ -28,6 +28,7 @@ namespace EdgyElegance.Persistence {
             CategoryRepository = new CategoryRepository(_context);
             GenderRepository = new GenderRepository(_context);
             ProductRepository = new ProductRepository(_context);
+            ImageRepository = new ImageRepository(_context);
         }
 
         public void Commit() {
