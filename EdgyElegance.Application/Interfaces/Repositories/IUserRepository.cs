@@ -28,12 +28,11 @@ namespace EdgyElegance.Application.Interfaces.Repositories {
         Task<IdentityResult> AddToRoleAsync(ApplicationUser user, string role);
 
         /// <summary>
-        /// Checks if a <see cref="ApplicationUser"/> exists through a
-        /// <see cref="Expression"/>
+        /// Checks if a <see cref="ApplicationUser"/> exists through its email
         /// </summary>
-        /// <param name="predicate">The expression to be passed down</param>
+        /// <param name="email">The email to look for</param>
         /// <returns><see cref="true"/> if exists, <see cref="false"/> otherwise</returns>
-        bool UserExists(Expression<Func<ApplicationUser, bool>> predicate);
+        Task<bool> UserExists(string email);
 
         /// <summary>
         /// Checks if a password is valid for a given <see cref="ApplicationUser"/>
@@ -57,8 +56,8 @@ namespace EdgyElegance.Application.Interfaces.Repositories {
         /// <summary>
         /// Gets an <see cref="ApplicationUser"/>
         /// </summary>
-        /// <param name="expression">The <see cref="Expression"/> to be used</param>
+        /// <param name="id">The <see cref="ApplicationUser"/>'s ID</param>
         /// <returns>The <see cref="ApplicationUser"/> or <see cref="null"/> if not found</returns>
-        ApplicationUser? Get(Expression<Func<ApplicationUser, bool>> expression);
+        Task<ApplicationUser?> GetByIdAsync(string id);
     }
 }

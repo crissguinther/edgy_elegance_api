@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EdgyElegance.Application\EdgyElegance.Application.csproj" />
+    <ProjectReference Include="..\EdgyElegance.Domain\EdgyElegance.Domain.csproj" />
     <ProjectReference Include="..\EdgyElegance.Identity\EdgyElegance.Identity.csproj" />
   </ItemGroup>
 

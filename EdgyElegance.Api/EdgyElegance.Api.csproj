@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EdgyElegance.Application\EdgyElegance.Application.csproj" />
+    <ProjectReference Include="..\EdgyElegance.Infrastructure\EdgyElegance.Infrastructure.csproj" />
     <ProjectReference Include="..\EdgyElegance.Persistence\EdgyElegance.Persistence.csproj" />
   </ItemGroup>
 

@@ -4,7 +4,6 @@ using EdgyElegance.Application.Interfaces.Services;
 using EdgyElegance.Application.Models.RequestModels;
 using EdgyElegance.Application.Models.ResponseModels;
 using EdgyElegance.Identity.Entities;
-using System.Linq.Expressions;
 using System.Transactions;
 
 namespace EdgyElegance.Persistence.Services {
@@ -50,10 +49,13 @@ namespace EdgyElegance.Persistence.Services {
             return response;
         }
 
-        public ApplicationUser? GetUser(Expression<Func<ApplicationUser, bool>> predicate) 
-            => _unitOfWork.UserRepository.Get(predicate);
+        public async Task<ApplicationUser?> GetByEmailAsync(string email)
+            => await _unitOfWork.UserRepository.GetByEmailAsync(email);
 
-        public bool UserExists(Expression<Func<ApplicationUser, bool>> predicate)
-            => _unitOfWork.UserRepository.UserExists(predicate);
+        public async Task<ApplicationUser?> GetUser(string id) 
+            => await _unitOfWork.UserRepository.GetByIdAsync(id);
+
+        public Task<bool> UserExists(string email)
+            => _unitOfWork.UserRepository.UserExists(email);
     }
 }

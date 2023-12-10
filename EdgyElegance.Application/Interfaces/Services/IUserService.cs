@@ -1,12 +1,9 @@
-﻿using EdgyElegance.Application.Interfaces.Repositories;
-using EdgyElegance.Application.Models.RequestModels;
+﻿using EdgyElegance.Application.Models.RequestModels;
 using EdgyElegance.Application.Models.ResponseModels;
 using EdgyElegance.Identity.Entities;
 using Microsoft.AspNetCore.Identity;
-using System.Linq.Expressions;
 
-namespace EdgyElegance.Application.Interfaces.Services
-{
+namespace EdgyElegance.Application.Interfaces.Services {
     public interface IUserService {
         /// <summary>
         /// Creates an <see cref="ApplicationUser"/> and adds it to the
@@ -36,17 +33,24 @@ namespace EdgyElegance.Application.Interfaces.Services
         Task<UserResponse> AddToRoleByEmailAsync(string email, string role, bool saveOnSuccess = false);
 
         /// <summary>
-        /// Gets an <see cref="ApplicationUser"/> through the passed expression
+        /// Gets an <see cref="ApplicationUser"/> through its Id
         /// </summary>
-        /// <param name="predicate">The <see cref="Expression"/> to be used</param>
+        /// <param name="id">The Id to look for</param>
         /// <returns>The <see cref="ApplicationUser"/> or <see cref="null"/> if not found</returns>
-        ApplicationUser? GetUser(Expression<Func<ApplicationUser, bool>> predicate);
+        Task<ApplicationUser?> GetUser(string id);
 
         /// <summary>
         /// Checks if an <see cref="ApplicationUser"/> exists
         /// </summary>
-        /// <param name="predicate">The <see cref="Expression"/> to be used</param>
+        /// <param name="email">The email to look for</param>
         /// <returns><see cref="true"/> if exists, false otherwise</returns>
-        bool UserExists(Expression<Func<ApplicationUser, bool>> predicate);
+        Task<bool> UserExists(string email);
+
+        /// <summary>
+        /// Gets an <see cref="ApplicationUser"/> through its email
+        /// </summary>
+        /// <param name="email">The email to look for</param>
+        /// <returns><see cref="null"/> of not found or the <see cref="ApplicationUser"/> if found</returns>
+        Task<ApplicationUser?> GetByEmailAsync(string email);
     }
 }
